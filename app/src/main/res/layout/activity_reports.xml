@@ -12,11 +12,13 @@
         android:id="@+id/date_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:text="Date"
+        android:textColor="#404040"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#404040"/>
+        android:textStyle="bold" />
 
     <CalendarView
         android:id="@+id/calendar_view"
@@ -37,9 +39,9 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/bungee"
         android:text="Completed Tasks"
-        android:textAllCaps="true"
         android:textColor="#404040"
-        android:textSize="18sp"/>
+        android:textAllCaps="true"
+        android:textSize="18sp" />
 
     <ListView
         android:id="@+id/completed_tasks_listview"
@@ -59,9 +61,9 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/bungee"
         android:text="Pending Tasks"
-        android:textAllCaps="true"
         android:textColor="#404040"
-        android:textSize="18sp"/>
+        android:textAllCaps="true"
+        android:textSize="18sp" />
 
     <ListView
         android:id="@+id/pending_tasks_listview"
@@ -74,4 +76,13 @@
         android:background="@drawable/calendarr"
         android:theme="@style/Theme.AppCompat.Light"
         android:backgroundTint="#5A9E89"/>
+
+    <ImageView
+        android:id="@+id/backhome"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/backbtn" />
+
 </RelativeLayout>

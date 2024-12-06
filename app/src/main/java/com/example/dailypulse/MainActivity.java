@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
     private DataBaseHelper myDB;
     private List<ToDoModel> mList;
     private ToDoAdapter adapter;
+    private TextView noTasksTextView;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         mRecyclerview = findViewById(R.id.recycler_View);
         fab = findViewById(R.id.floatingActionButton);
+        noTasksTextView = findViewById(R.id.no_tasks_text);
         myDB = new DataBaseHelper(MainActivity.this);
         mList = new ArrayList<>();
         adapter = new ToDoAdapter(myDB, MainActivity.this);
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
         mList = myDB.getAllTasks();
         Collections.reverse(mList);
         adapter.setTasks(mList);
+        toggleEmptyView();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -76,21 +80,20 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
                 }
                 if (intent != null) {
                     startActivity(intent);
-                    // Optionally add finish() here if you don't want users to return to this activity via the back button
                 }
                 return false; // Return true to display the item as the selected item
             }
         });
-// Set default selection and start HomeActivity
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddNewTask.newInstance().show(getSupportFragmentManager() , AddNewTask.TAG);
+                AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG);
             }
         });
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewTouchHelper(adapter));
         itemTouchHelper.attachToRecyclerView(mRecyclerview);
     }
@@ -121,5 +124,16 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
         Collections.reverse(mList);
         adapter.setTasks(mList);
         adapter.notifyDataSetChanged();
+        toggleEmptyView();
+    }
+
+    private void toggleEmptyView() {
+        if (mList.isEmpty()) {
+            mRecyclerview.setVisibility(View.GONE);
+            noTasksTextView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerview.setVisibility(View.VISIBLE);
+            noTasksTextView.setVisibility(View.GONE);
+        }
     }
 }

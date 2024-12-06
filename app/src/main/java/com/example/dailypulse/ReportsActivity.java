@@ -1,11 +1,15 @@
 package com.example.dailypulse;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,6 +27,7 @@ public class ReportsActivity extends AppCompatActivity {
     private ListView pendingTasksListView;
     private CalendarView calendarView;
     private TextView dateSelected;
+    private ImageView back;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -35,13 +40,23 @@ public class ReportsActivity extends AppCompatActivity {
         pendingTasksListView = findViewById(R.id.pending_tasks_listview);
         calendarView = findViewById(R.id.calendar_view);
         dateSelected = findViewById(R.id.date_selected);
+        back = findViewById(R.id.backhome);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ReportsActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         myDb = new DataBaseHelper(this);
 
         // Set calendar to today's date and display tasks for today
         long currentDateMillis = System.currentTimeMillis();
         calendarView.setDate(currentDateMillis, false, true);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
         String todayDate = sdf.format(currentDateMillis);
         dateSelected.setText(todayDate);
         loadTasksForDate(todayDate);
